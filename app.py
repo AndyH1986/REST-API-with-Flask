@@ -37,10 +37,10 @@ def create_store():
     return store
 
 
-@app.delete("/store/<string:store_id>")
-def delete_item(store_id):
+@app.delete("/store/<string:item_id>")
+def delete_item(item_id):
     try:
-        del stores[store_id]
+        del stores[item_id]
         return {"message":"Store deleted"}
     except KeyError:
         abort(404, message="Store not found.")
