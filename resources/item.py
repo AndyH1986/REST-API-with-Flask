@@ -47,6 +47,7 @@ class Store(MethodView):
     @blp.response(201, ItemSchema)
     def post(self, item_data):
         item = ItemModel(**item_data)
+
         try:
             db.session.add(item)
             db.session.commit()
