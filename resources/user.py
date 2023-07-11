@@ -13,12 +13,12 @@ blp = Blueprint("users", __name__, description="Operations on users")
 class UserRegister(MethodView):
     @blp.arguments(UserSchema)
     def post(self, user_data):
-        if UserModel.query.filter(UserModel.username == user_data["username"]).fisrt():
+        if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             abort(409, message="A user with that username already exists.")
 
         user = UserModel(
             username=user_data["username"],
-            password=pbkdf2_sha256(user_data["password"]),
+            password=pbkdf2_sha256.hash(user_data["password"]),
         )
         db.session.add(user)
         db.session.commit()
@@ -35,6 +35,6 @@ class User(MethodView):
 
     def delete(self, user_id):
         user = UserModel.query.get_or_404(user_id)
-        db.seesion.delete(user)
+        db.session.delete(user)
         db.session.commit()
         return {"message": "User has been deleted!"}, 200
